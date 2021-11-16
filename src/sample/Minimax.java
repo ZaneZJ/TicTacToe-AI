@@ -4,9 +4,9 @@ public class Minimax {
 
     static int minimax(char board[][], int depth, Boolean isMax) {
 
-        Move m = new Move();
+        Move move = new Move();
 
-        int score = m.evaluate(board);
+        int score = move.evaluate(board);
 
         if (score == 10) {
             return score;
@@ -16,7 +16,7 @@ public class Minimax {
             return score;
         }
 
-        if (m.isMovesLeft(board) == false) {
+        if (move.areMovesLeft(board) == false) {
             return 0;
         }
 
@@ -30,7 +30,7 @@ public class Minimax {
 
                     if (board[i][j]=='_') {
 
-                        board[i][j] = m.player;
+                        board[i][j] = move.ai;
                         best = Math.max(best, minimax(board, depth + 1, !isMax));
                         board[i][j] = '_';
 
@@ -51,7 +51,7 @@ public class Minimax {
 
                     if (board[i][j] == '_') {
 
-                        board[i][j] = m.opponent;
+                        board[i][j] = move.player;
                         best = Math.min(best, minimax(board, depth + 1, !isMax));
                         board[i][j] = '_';
 
