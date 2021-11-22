@@ -4,9 +4,6 @@ import java.util.Scanner;
 
 public class Move {
 
-    public static int row;
-    public static int col;
-
     public static char ai = 'x';
     public static char player = 'o';
     public static char empty = '_';
@@ -19,28 +16,40 @@ public class Move {
         BoardTTT.board[row][col] = mark;
     }
 
-    public static void insert(String text1, String text2) {
+    public static void insert(String text1, String text2, int row, int col) {
 
-        if (xTurn == true) {
-            System.out.println("X turn (AI)");
-        } else {
-            System.out.println("O turn (PLAYER)");
+        if (areMovesLeft(BoardTTT.board) == false) {
+
+            BoardTTT.gameOver = true;
+            return;
+
         }
 
-        Scanner insert = new Scanner(System.in);
-        System.out.println(text1);
-        int newRow = Integer.parseInt(insert.nextLine());
-        System.out.println(text2);
-        int newCol = Integer.parseInt(insert.nextLine());
-        placeMark(newRow, newCol);
+        if (xTurn == true) {
 
+            if (isValidMove(row,col) == true) {
+
+                System.out.println("X turn (AI)");
+                placeMark(row, col);
+
+            }
+
+        } else {
+
+            if (isValidMove(row,col) == true) {
+
+                System.out.println("O turn (PLAYER)");
+                placeMark(row, col);
+
+            }
+        }
     }
 
     public static Boolean isValidMove(int row, int col) {
 
         if (row >= 0 && row < 3 && col >= 0 && col < 3) {
 
-            if (BoardTTT.board[row][col] == '_') {
+            if (BoardTTT.board[row][col] == empty) {
                 return true;
             }
         }
@@ -53,7 +62,7 @@ public class Move {
 
             for (int col = 0; col < 3; col++) {
 
-                if (board[row][col] == '_') {
+                if (board[row][col] == empty) {
                     return true;
                 }
             }
@@ -97,39 +106,27 @@ public class Move {
 
     public static void placeMark(int row, int col) {
 
-        if (areMovesLeft(BoardTTT.board) == false) {
-
-            BoardTTT.gameOver = true;
-
-        }
-
-        if (isValidMove(row, col) == false) {
-
-            insert("Reinsert row : ", "Reinsert col : ");
-
-        }
-
         if (xTurn == true) {
 
-            BoardTTT.board[row][col] = 'x';
+            BoardTTT.board[row][col] = ai;
             xTurn = false;
 
             if (checkIfWon('x', BoardTTT.board) == true) {
 
                 BoardTTT.gameOver = true;
-                BoardTTT.winner = 'x';
+                BoardTTT.winner = ai;
 
             }
 
         } else {
 
-            BoardTTT.board[row][col] = 'o';
+            BoardTTT.board[row][col] = player;
             xTurn = false;
 
             if (checkIfWon('o', BoardTTT.board) == true) {
 
                 BoardTTT.gameOver = true;
-                BoardTTT.winner = 'o';
+                BoardTTT.winner = player;
 
             }
         }

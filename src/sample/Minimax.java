@@ -195,7 +195,9 @@ public class Minimax {
             int lowestVal = Integer.MAX_VALUE;
 
             for (int row = 0; row < 3; row++) {
+
                 for (int col = 0; col < 3; col++) {
+
                     if (!move.isValidMove(row, col)) {
                         move.setMarkAt(row, col, 'o');
                         lowestVal = Math.min(lowestVal, minimax(board,depth - 1, true));

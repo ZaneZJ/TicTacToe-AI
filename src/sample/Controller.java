@@ -3,7 +3,6 @@ package sample;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -64,6 +63,8 @@ public class Controller {
 
     BoardTTT boardTTT = new BoardTTT();
     Move move = new Move();
+    Minimax minimax = new Minimax();
+    boolean endGame = false;
 
     @FXML
     public void handleCloseButtonAction(ActionEvent event) {
@@ -97,6 +98,7 @@ public class Controller {
         endOfTheGame.setVisible(true);
 
         textWon.setValue(text);
+        endGame = true;
 
     }
 
@@ -118,7 +120,52 @@ public class Controller {
 
         do {
 
-            move.insert("Row : ", "Col : ");
+            checkBoard();
+
+            button00.setOnAction((buttonEventCalc) -> {
+                move.insert("Row : ", "Col : ", 0, 0);
+                turnOfAI();
+            });
+
+            button01.setOnAction((buttonEventCalc) -> {
+                move.insert("Row : ", "Col : ", 0, 1);
+                turnOfAI();
+            });
+
+            button02.setOnAction((buttonEventCalc) -> {
+                move.insert("Row : ", "Col : ", 0, 2);
+                turnOfAI();
+            });
+
+            button10.setOnAction((buttonEventCalc) -> {
+                move.insert("Row : ", "Col : ", 1, 0);
+                turnOfAI();
+            });
+
+            button11.setOnAction((buttonEventCalc) -> {
+                move.insert("Row : ", "Col : ", 1, 1);
+                turnOfAI();
+            });
+
+            button12.setOnAction((buttonEventCalc) -> {
+                move.insert("Row : ", "Col : ", 1, 2);
+                turnOfAI();
+            });
+
+            button20.setOnAction((buttonEventCalc) -> {
+                move.insert("Row : ", "Col : ", 2, 0);
+                turnOfAI();
+            });
+
+            button21.setOnAction((buttonEventCalc) -> {
+                move.insert("Row : ", "Col : ", 2, 1);
+                turnOfAI();
+            });
+
+            button22.setOnAction((buttonEventCalc) -> {
+                move.insert("Row : ", "Col : ", 2, 2);
+                turnOfAI();
+            });
 
             if (BoardTTT.gameOver == true) {
 
@@ -138,10 +185,47 @@ public class Controller {
                     endOfGame("Even !");
 
                 }
-
             }
 
-        } while (BoardTTT.gameOver == true);
+        } while (endGame == false);
+
+    }
+
+    public void turnOfAI() {
+
+        if (Move.xTurn == true) {
+
+            int[] bestMove = minimax.returnBestMove(BoardTTT.board);
+            move.insert("Row : ", "Col : ", bestMove[0], bestMove[1]);
+
+        }
+    }
+
+    public void checkBoard() {
+
+        setValue(0,0, button00);
+        setValue(0,1, button01);
+        setValue(0,2, button02);
+        setValue(1,0, button10);
+        setValue(1,1, button11);
+        setValue(1,2, button12);
+        setValue(2,0, button20);
+        setValue(2,1, button21);
+        setValue(2,2, button22);
+
+    }
+
+    public void setValue(int row, int col, Button button) {
+
+        char value = BoardTTT.board[row][col];
+
+        if (value == 'x') {
+            button.setText("X");
+        } else if (value == 'o') {
+            button.setText("O");
+        } else {
+            button.setText("");
+        }
 
     }
 
