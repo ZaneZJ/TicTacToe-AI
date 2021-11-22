@@ -4,30 +4,22 @@ import java.util.Scanner;
 
 public class Move {
 
-    static int row;
-    static int col;
+    public static int row;
+    public static int col;
 
-    static char ai = 'x';
-    static char player = 'o';
+    public static char ai = 'x';
+    public static char player = 'o';
+    public static char empty = '_';
 
-    static boolean xTurn;
+    public static boolean xTurn;
 
     BoardTTT boardTTT = new BoardTTT();
 
-    static void whoWillStart() {
-
-        Scanner insert = new Scanner(System.in);
-        System.out.println("Who will start? x/o");
-        String who = String.valueOf(insert.nextLine());
-
-        if (who == "x") {
-            xTurn = true;
-        } else {
-            xTurn = false;
-        }
+    public void setMarkAt(int row, int col, char mark) {
+        BoardTTT.board[row][col] = mark;
     }
 
-    static void insert(String text1, String text2) {
+    public static void insert(String text1, String text2) {
 
         if (xTurn == true) {
             System.out.println("X turn (AI)");
@@ -44,7 +36,7 @@ public class Move {
 
     }
 
-    static Boolean isValidMove(int row, int col) {
+    public static Boolean isValidMove(int row, int col) {
 
         if (row >= 0 && row < 3 && col >= 0 && col < 3) {
 
@@ -55,13 +47,13 @@ public class Move {
         return false;
     }
 
-    static Boolean areMovesLeft(char board[][]) {
+    public static Boolean areMovesLeft(char board[][]) {
 
         for (int row = 0; row < 3; row++) {
 
             for (int col = 0; col < 3; col++) {
 
-                if (BoardTTT.board[row][col] == '_') {
+                if (board[row][col] == '_') {
                     return true;
                 }
             }
@@ -69,7 +61,7 @@ public class Move {
         return false;
     }
 
-    static Boolean checkIfWon(char turn, char board[][]) {
+    public static Boolean checkIfWon(char turn, char board[][]) {
 
         // Check row
         for (int row = 0; row < 3; row++) {
@@ -103,7 +95,7 @@ public class Move {
         return false;
     }
 
-    static void placeMark(int row, int col) {
+    public static void placeMark(int row, int col) {
 
         if (areMovesLeft(BoardTTT.board) == false) {
 
@@ -143,104 +135,104 @@ public class Move {
         }
     }
 
-    static int evaluate (char b[][]) {
+//    static int evaluate (char b[][]) {
+//
+//        for (int row = 0; row < 3; row++) {
+//
+//            if (b[row][0] == b[row][1] && b[row][1] == b[row][2]) {
+//
+//                if (b[row][0] == ai) {
+//
+//                    return +10;
+//
+//                } else if (b[row][0] == player) {
+//
+//                    return -10;
+//
+//                }
+//            }
+//        }
+//
+//        for (int col = 0; col < 3; col++) {
+//
+//            if (b[0][col] == b[1][col] && b[1][col] == b[2][col]) {
+//
+//                if (b[0][col] == ai) {
+//
+//                    return +10;
+//
+//                } else if (b[0][col] == player) {
+//
+//                    return -10;
+//
+//                }
+//            }
+//        }
+//
+//        if (b[0][0] == b[1][1] && b[1][1] == b[2][2]) {
+//
+//            if (b[0][0] == ai) {
+//
+//                return +10;
+//
+//            } else if (b[0][0] == player) {
+//
+//                return -10;
+//
+//            }
+//        }
+//
+//        if (b[0][2] == b[1][1] && b[1][1] == b[2][0]) {
+//
+//            if (b[0][2] == ai) {
+//
+//                return +10;
+//
+//            } else if (b[0][2] == player) {
+//
+//                return -10;
+//
+//            }
+//        }
+//
+//        return 0;
+//    }
 
-        for (int row = 0; row < 3; row++) {
-
-            if (b[row][0] == b[row][1] && b[row][1] == b[row][2]) {
-
-                if (b[row][0] == ai) {
-
-                    return +10;
-
-                } else if (b[row][0] == player) {
-
-                    return -10;
-
-                }
-            }
-        }
-
-        for (int col = 0; col < 3; col++) {
-
-            if (b[0][col] == b[1][col] && b[1][col] == b[2][col]) {
-
-                if (b[0][col] == ai) {
-
-                    return +10;
-
-                } else if (b[0][col] == player) {
-
-                    return -10;
-
-                }
-            }
-        }
-
-        if (b[0][0] == b[1][1] && b[1][1] == b[2][2]) {
-
-            if (b[0][0] == ai) {
-
-                return +10;
-
-            } else if (b[0][0] == player) {
-
-                return -10;
-
-            }
-        }
-
-        if (b[0][2] == b[1][1] && b[1][1] == b[2][0]) {
-
-            if (b[0][2] == ai) {
-
-                return +10;
-
-            } else if (b[0][2] == player) {
-
-                return -10;
-
-            }
-        }
-
-        return 0;
-    }
-
-    int[] findBestMove(char board[][]) {
-
-        Minimax mm = new Minimax();
-
-        int bestVal = -1000;
-        row = -1;
-        col = -1;
-
-        for (int i = 0; i < 3; i++) {
-
-            for (int j = 0; j < 3; j++) {
-
-                if (board[i][j] == '_') {
-
-                    board[i][j] = ai;
-                    int moveVal = mm.minimax(board, 0, false);
-                    board[i][j] = '_';
-
-                    if (moveVal > bestVal) {
-
-                        row = i;
-                        col = j;
-                        bestVal = moveVal;
-
-                    }
-                }
-            }
-        }
-
-        int [] arr = {row + 1, col + 1};
-
-        System.out.printf("The value of the best Move " + "is : %d\n\n", bestVal);
-
-        return arr;
-
-    }
+//    int[] findBestMove(char board[][]) {
+//
+//        Minimax mm = new Minimax();
+//
+//        int bestVal = -1000;
+//        row = -1;
+//        col = -1;
+//
+//        for (int i = 0; i < 3; i++) {
+//
+//            for (int j = 0; j < 3; j++) {
+//
+//                if (board[i][j] == '_') {
+//
+//                    board[i][j] = ai;
+//                    int moveVal = mm.minimax(board, 0, false);
+//                    board[i][j] = '_';
+//
+//                    if (moveVal > bestVal) {
+//
+//                        row = i;
+//                        col = j;
+//                        bestVal = moveVal;
+//
+//                    }
+//                }
+//            }
+//        }
+//
+//        int [] arr = {row + 1, col + 1};
+//
+//        System.out.printf("The value of the best Move " + "is : %d\n\n", bestVal);
+//
+//        return arr;
+//
+//    }
 
 }

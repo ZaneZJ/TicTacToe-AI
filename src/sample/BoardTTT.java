@@ -8,19 +8,14 @@ public class BoardTTT {
     static char winner;
     static boolean gameOver;
 
-    Move move = new Move();
+    static void playAgain(String text) {
 
-    static void playAgain() {
+        System.out.println("Do you want to play again? " + text);
 
-        Scanner insert = new Scanner(System.in);
-        System.out.println("Do you want to play again? yes/no");
-        String play = insert.nextLine();
-
-        if (play == "yes") {
+        if (text == "yes") {
             cleanBoard();
             gameOver = false;
         }
-
     }
 
     static void cleanBoard() {
@@ -33,9 +28,6 @@ public class BoardTTT {
 
             }
         }
-
-        Move.whoWillStart();
-
     }
 
 }
