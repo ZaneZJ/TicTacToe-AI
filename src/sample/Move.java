@@ -10,13 +10,13 @@ public class Move {
 
     public static boolean xTurn;
 
-    BoardTTT boardTTT = new BoardTTT();
-
     public void setMarkAt(int row, int col, char mark) {
         BoardTTT.board[row][col] = mark;
     }
 
     public static void insert(String text1, String text2, int row, int col) {
+
+        System.out.println(row + " " + col);
 
         if (areMovesLeft(BoardTTT.board) == false) {
 
@@ -91,13 +91,13 @@ public class Move {
         }
 
         // Check diagonal
-        if (board[1][1] == turn && board[2][2] == turn && board[3][3] == turn) {
+        if (board[0][0] == turn && board[1][1] == turn && board[2][2] == turn) {
             return true;
         }
 
 
         // Check anti-diagonal
-        if (board[1][3] == turn && board[2][2] == turn && board[3][1] == turn) {
+        if (board[0][2] == turn && board[1][1] == turn && board[2][0] == turn) {
             return true;
         }
 
@@ -111,7 +111,7 @@ public class Move {
             BoardTTT.board[row][col] = ai;
             xTurn = false;
 
-            if (checkIfWon('x', BoardTTT.board) == true) {
+            if (checkIfWon(ai, BoardTTT.board) == true) {
 
                 BoardTTT.gameOver = true;
                 BoardTTT.winner = ai;
@@ -121,9 +121,9 @@ public class Move {
         } else {
 
             BoardTTT.board[row][col] = player;
-            xTurn = false;
+            xTurn = true;
 
-            if (checkIfWon('o', BoardTTT.board) == true) {
+            if (checkIfWon(player, BoardTTT.board) == true) {
 
                 BoardTTT.gameOver = true;
                 BoardTTT.winner = player;

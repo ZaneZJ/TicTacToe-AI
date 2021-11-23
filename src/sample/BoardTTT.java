@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class BoardTTT {
 
-    static char [][] board;
+    static char [][] board = { {'_','_','_'},{'_','_','_'},{'_','_','_'} };
     static char winner;
     static boolean gameOver;
 

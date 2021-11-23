@@ -3,12 +3,15 @@ package sample;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javax.xml.soap.Text;
+import javafx.scene.text.Text;
 
-public class Controller {
+import java.util.Random;
+
+public class Controller extends AnchorPane {
 
     @FXML
     private Text textWon;
@@ -64,7 +67,9 @@ public class Controller {
     BoardTTT boardTTT = new BoardTTT();
     Move move = new Move();
     Minimax minimax = new Minimax();
+    Random random = new Random();
     boolean endGame = false;
+    boolean beginWithAI = false;
 
     @FXML
     public void handleCloseButtonAction(ActionEvent event) {
@@ -81,7 +86,8 @@ public class Controller {
 
     @FXML
     public void startAI(ActionEvent event) {
-        move.xTurn = false;
+        move.xTurn = true;
+        beginWithAI = true;
         play();
     }
 
@@ -97,7 +103,7 @@ public class Controller {
         boardTicTacToe.setVisible(false);
         endOfTheGame.setVisible(true);
 
-        textWon.setValue(text);
+        textWon.setText(text);
         endGame = true;
 
     }
@@ -110,6 +116,30 @@ public class Controller {
 
     }
 
+    public void end() {
+
+        if (BoardTTT.gameOver == true) {
+
+            if (BoardTTT.winner == 'x') {
+
+                System.out.println("X won!");
+                endOfGame("AI WON!");
+
+            } else if (BoardTTT.winner == 'o') {
+
+                System.out.println("O won!");
+                endOfGame("Player WON!");
+
+            } else {
+
+                System.out.println("Even!");
+                endOfGame("Even!");
+
+            }
+        }
+
+    }
+
     public void play() {
 
         BoardTTT.cleanBoard();
@@ -118,76 +148,56 @@ public class Controller {
         boardTicTacToe.setVisible(true);
         endOfTheGame.setVisible(false);
 
-        do {
+        if (beginWithAI == true) {
+            beginWithAI = false;
+            move.insert("Row : ", "Col : ", random.nextInt(3), random.nextInt(3));
+            drawBoard();
+        }
 
-            checkBoard();
+        button00.setOnAction((buttonEventCalc) -> {
+            move.insert("Row : ", "Col : ", 0, 0);
+            turnOfAI();
+        });
 
-            button00.setOnAction((buttonEventCalc) -> {
-                move.insert("Row : ", "Col : ", 0, 0);
-                turnOfAI();
-            });
+        button01.setOnAction((buttonEventCalc) -> {
+            move.insert("Row : ", "Col : ", 0, 1);
+            turnOfAI();
+        });
 
-            button01.setOnAction((buttonEventCalc) -> {
-                move.insert("Row : ", "Col : ", 0, 1);
-                turnOfAI();
-            });
+        button02.setOnAction((buttonEventCalc) -> {
+            move.insert("Row : ", "Col : ", 0, 2);
+            turnOfAI();
+        });
 
-            button02.setOnAction((buttonEventCalc) -> {
-                move.insert("Row : ", "Col : ", 0, 2);
-                turnOfAI();
-            });
+        button10.setOnAction((buttonEventCalc) -> {
+            move.insert("Row : ", "Col : ", 1, 0);
+            turnOfAI();
+        });
 
-            button10.setOnAction((buttonEventCalc) -> {
-                move.insert("Row : ", "Col : ", 1, 0);
-                turnOfAI();
-            });
+        button11.setOnAction((buttonEventCalc) -> {
+            move.insert("Row : ", "Col : ", 1, 1);
+            turnOfAI();
+        });
 
-            button11.setOnAction((buttonEventCalc) -> {
-                move.insert("Row : ", "Col : ", 1, 1);
-                turnOfAI();
-            });
+        button12.setOnAction((buttonEventCalc) -> {
+            move.insert("Row : ", "Col : ", 1, 2);
+            turnOfAI();
+        });
 
-            button12.setOnAction((buttonEventCalc) -> {
-                move.insert("Row : ", "Col : ", 1, 2);
-                turnOfAI();
-            });
+        button20.setOnAction((buttonEventCalc) -> {
+            move.insert("Row : ", "Col : ", 2, 0);
+            turnOfAI();
+        });
 
-            button20.setOnAction((buttonEventCalc) -> {
-                move.insert("Row : ", "Col : ", 2, 0);
-                turnOfAI();
-            });
+        button21.setOnAction((buttonEventCalc) -> {
+            move.insert("Row : ", "Col : ", 2, 1);
+            turnOfAI();
+        });
 
-            button21.setOnAction((buttonEventCalc) -> {
-                move.insert("Row : ", "Col : ", 2, 1);
-                turnOfAI();
-            });
-
-            button22.setOnAction((buttonEventCalc) -> {
-                move.insert("Row : ", "Col : ", 2, 2);
-                turnOfAI();
-            });
-
-            if (BoardTTT.gameOver == true) {
-
-                if (BoardTTT.winner == 'x') {
-
-                    System.out.println("X won!");
-                    endOfGame("AI WON !");
-
-                } else if (BoardTTT.winner == 'o') {
-
-                    System.out.println("O won!");
-                    endOfGame("Player WON !");
-
-                } else {
-
-                    System.out.println("Even!");
-                    endOfGame("Even !");
-
-                }
-            }
-
-        } while (endGame == false);
+        button22.setOnAction((buttonEventCalc) -> {
+            move.insert("Row : ", "Col : ", 2, 2);
+            turnOfAI();
+        });
 
     }
 
@@ -195,13 +205,16 @@ public class Controller {
 
         if (Move.xTurn == true) {
 
-            int[] bestMove = minimax.returnBestMove(BoardTTT.board);
+            int[] bestMove = minimax.findBestMove(BoardTTT.board);
             move.insert("Row : ", "Col : ", bestMove[0], bestMove[1]);
 
         }
+
+        drawBoard();
+
     }
 
-    public void checkBoard() {
+    public void drawBoard() {
 
         setValue(0,0, button00);
         setValue(0,1, button01);

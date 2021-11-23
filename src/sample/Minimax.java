@@ -92,9 +92,6 @@ public class Minimax {
             oSum = 0;
         }
 
-        xSum = 0;
-        oSum = 0;
-
         // Check col
         for (int col = 0; col < 3; col++) {
 
@@ -117,9 +114,6 @@ public class Minimax {
             xSum = 0;
             oSum = 0;
         }
-
-        xSum = 0;
-        oSum = 0;
 
         // Check diagonal
         for (int i = 0; i < 3; i++) {
@@ -144,9 +138,9 @@ public class Minimax {
         // Check anti-diagonal
         for (int i = 0; i < 3; i++) {
 
-            if (board[i][3 - i] == 'x') {
+            if (board[i][2 - i] == 'x') {
                 xSum++;
-            } else if (board[i][3 - i] == 'o') {
+            } else if (board[i][2 - i] == 'o') {
                 oSum++;
             }
 
@@ -179,7 +173,7 @@ public class Minimax {
 
                 for (int col = 0; col < 3; col++) {
 
-                    if (!move.isValidMove(row, col)) {
+                    if (move.isValidMove(row, col)) {
 
                         move.setMarkAt(row, col, 'x');
                         highestVal = Math.max(highestVal, minimax(board, depth - 1, false));
@@ -198,7 +192,7 @@ public class Minimax {
 
                 for (int col = 0; col < 3; col++) {
 
-                    if (!move.isValidMove(row, col)) {
+                    if (move.isValidMove(row, col)) {
                         move.setMarkAt(row, col, 'o');
                         lowestVal = Math.min(lowestVal, minimax(board,depth - 1, true));
                         move.setMarkAt(row, col, '_');
@@ -211,7 +205,7 @@ public class Minimax {
         }
     }
 
-    public static int[] returnBestMove(char board[][]) {
+    public static int[] findBestMove(char board[][]) {
 
         Move move = new Move();
 
