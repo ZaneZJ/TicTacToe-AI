@@ -1,7 +1,5 @@
 package sample;
 
-import java.util.Scanner;
-
 public class BoardTTT {
 
     static char [][] board = { {'_','_','_'},{'_','_','_'},{'_','_','_'} };
