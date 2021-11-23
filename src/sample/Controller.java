@@ -124,18 +124,21 @@ public class Controller extends AnchorPane {
 
                 System.out.println("X won!");
                 endOfGame("AI WON!");
+                BoardTTT.winner = '_';
                 return true;
 
             } else if (BoardTTT.winner == 'o') {
 
                 System.out.println("O won!");
                 endOfGame("Player WON!");
+                BoardTTT.winner = '_';
                 return true;
 
             } else {
 
                 System.out.println("Even!");
                 endOfGame("Even!");
+                BoardTTT.winner = '_';
                 return true;
 
             }
