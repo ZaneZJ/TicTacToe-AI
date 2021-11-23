@@ -83,9 +83,9 @@ public class Minimax {
             }
 
             if (xSum == 3) {
-                return 10;
+                return 1;
             } else if (oSum == 3) {
-                return -10;
+                return -2;
             }
 
             xSum = 0;
@@ -106,9 +106,9 @@ public class Minimax {
             }
 
             if (xSum == 3) {
-                return 10;
+                return 1;
             } else if (oSum == 3) {
-                return -10;
+                return -2;
             }
 
             xSum = 0;
@@ -127,9 +127,9 @@ public class Minimax {
         }
 
         if (xSum == 3) {
-            return 10;
+            return 1;
         } else if (oSum == 3) {
-            return -10;
+            return -2;
         }
 
         xSum = 0;
@@ -147,9 +147,9 @@ public class Minimax {
         }
 
         if (xSum == 3) {
-            return 10;
+            return 1;
         } else if (oSum == 3) {
-            return -10;
+            return -2;
         }
 
         return 0;
@@ -161,13 +161,13 @@ public class Minimax {
         Move move = new Move();
         int boardVal = evaluate(board);
 
-        if (Math.abs(boardVal) == 10 || depth == 0 || !move.areMovesLeft(board)) {
+        if (depth == 0 || !move.areMovesLeft(board)) {
             return boardVal;
         }
 
-        if (isMax == true) {
+        if (isMax) {
 
-            int highestVal = Integer.MIN_VALUE;
+            int value = 0;
 
             for (int row = 0; row < 3; row++) {
 
@@ -176,17 +176,18 @@ public class Minimax {
                     if (move.isValidMove(row, col)) {
 
                         move.setMarkAt(row, col, 'x');
-                        highestVal = Math.max(highestVal, minimax(board, depth - 1, false));
+                        value =+ minimax(board, depth - 1, false) * depth;
                         move.setMarkAt(row, col, '_');
 
                     }
                 }
             }
-            return highestVal;
+
+            return value;
 
         } else {
 
-            int lowestVal = Integer.MAX_VALUE;
+            int value = 0;
 
             for (int row = 0; row < 3; row++) {
 
@@ -194,15 +195,15 @@ public class Minimax {
 
                     if (move.isValidMove(row, col)) {
                         move.setMarkAt(row, col, 'o');
-                        lowestVal = Math.min(lowestVal, minimax(board,depth - 1, true));
+                        value =+ minimax(board, depth - 1, true) * depth;
                         move.setMarkAt(row, col, '_');
                     }
                 }
             }
 
-            return lowestVal;
-
+            return value;
         }
+
     }
 
     public static int[] findBestMove(char board[][]) {
@@ -219,7 +220,7 @@ public class Minimax {
                 if (board[row][col] == '_') {
 
                     move.setMarkAt(row, col, 'x');
-                    int moveValue = minimax(board, 3,false);
+                    int moveValue = minimax(board, 6,false);
                     move.setMarkAt(row, col, '_');
 
                     if (moveValue > bestValue) {
