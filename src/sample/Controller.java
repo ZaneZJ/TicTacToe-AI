@@ -88,12 +88,14 @@ public class Controller extends AnchorPane {
     public void startAI(ActionEvent event) {
         move.xTurn = true;
         beginWithAI = true;
+        drawBoard();
         play();
     }
 
     @FXML
     public void startPlayer(ActionEvent event) {
         move.xTurn = false;
+        drawBoard();
         play();
     }
 
@@ -116,7 +118,7 @@ public class Controller extends AnchorPane {
 
     }
 
-    public void end() {
+    public boolean isEndOfTheGame() {
 
         if (BoardTTT.gameOver == true) {
 
@@ -124,19 +126,24 @@ public class Controller extends AnchorPane {
 
                 System.out.println("X won!");
                 endOfGame("AI WON!");
+                return true;
 
             } else if (BoardTTT.winner == 'o') {
 
                 System.out.println("O won!");
                 endOfGame("Player WON!");
+                return true;
 
             } else {
 
                 System.out.println("Even!");
                 endOfGame("Even!");
+                return true;
 
             }
         }
+
+        return false;
 
     }
 
@@ -156,47 +163,74 @@ public class Controller extends AnchorPane {
 
         button00.setOnAction((buttonEventCalc) -> {
             move.insert("Row : ", "Col : ", 0, 0);
-            turnOfAI();
+            if (!isEndOfTheGame()) {
+                turnOfAI();
+                isEndOfTheGame();
+            }
         });
 
         button01.setOnAction((buttonEventCalc) -> {
             move.insert("Row : ", "Col : ", 0, 1);
-            turnOfAI();
+            if (!isEndOfTheGame()) {
+                turnOfAI();
+                isEndOfTheGame();
+            }
         });
 
         button02.setOnAction((buttonEventCalc) -> {
             move.insert("Row : ", "Col : ", 0, 2);
-            turnOfAI();
+            if (!isEndOfTheGame()) {
+                turnOfAI();
+                isEndOfTheGame();
+            }
         });
 
         button10.setOnAction((buttonEventCalc) -> {
             move.insert("Row : ", "Col : ", 1, 0);
-            turnOfAI();
+            if (!isEndOfTheGame()) {
+                turnOfAI();
+                isEndOfTheGame();
+            }
         });
 
         button11.setOnAction((buttonEventCalc) -> {
             move.insert("Row : ", "Col : ", 1, 1);
-            turnOfAI();
+            if (!isEndOfTheGame()) {
+                turnOfAI();
+                isEndOfTheGame();
+            }
         });
 
         button12.setOnAction((buttonEventCalc) -> {
             move.insert("Row : ", "Col : ", 1, 2);
-            turnOfAI();
+            if (!isEndOfTheGame()) {
+                turnOfAI();
+                isEndOfTheGame();
+            }
         });
 
         button20.setOnAction((buttonEventCalc) -> {
             move.insert("Row : ", "Col : ", 2, 0);
-            turnOfAI();
+            if (!isEndOfTheGame()) {
+                turnOfAI();
+                isEndOfTheGame();
+            }
         });
 
         button21.setOnAction((buttonEventCalc) -> {
             move.insert("Row : ", "Col : ", 2, 1);
-            turnOfAI();
+            if (!isEndOfTheGame()) {
+                turnOfAI();
+                isEndOfTheGame();
+            }
         });
 
         button22.setOnAction((buttonEventCalc) -> {
             move.insert("Row : ", "Col : ", 2, 2);
-            turnOfAI();
+            if (!isEndOfTheGame()) {
+                turnOfAI();
+                isEndOfTheGame();
+            }
         });
 
     }
