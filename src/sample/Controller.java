@@ -68,7 +68,6 @@ public class Controller extends AnchorPane {
     Move move = new Move();
     Minimax minimax = new Minimax();
     Random random = new Random();
-    boolean endGame = false;
     boolean beginWithAI = false;
 
     @FXML
@@ -106,7 +105,6 @@ public class Controller extends AnchorPane {
         endOfTheGame.setVisible(true);
 
         textWon.setText(text);
-        endGame = true;
 
     }
 

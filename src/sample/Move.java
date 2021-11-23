@@ -10,7 +10,7 @@ public class Move {
 
     public static boolean xTurn;
 
-    public void setMarkAt(int row, int col, char mark) {
+    public static void setMarkAt(int row, int col, char mark) {
         BoardTTT.board[row][col] = mark;
     }
 

@@ -64,7 +64,7 @@ public class Minimax {
 //        }
 //    }
 
-    private static int evaluate(char board[][]) {
+    private static int evaluate(char board[][], int depth) {
 
         int xSum = 0;
         int oSum = 0;
@@ -83,9 +83,9 @@ public class Minimax {
             }
 
             if (xSum == 3) {
-                return 1;
+                return 10 + depth;
             } else if (oSum == 3) {
-                return -2;
+                return -10 - depth;
             }
 
             xSum = 0;
@@ -106,9 +106,9 @@ public class Minimax {
             }
 
             if (xSum == 3) {
-                return 1;
+                return 10 + depth;
             } else if (oSum == 3) {
-                return -2;
+                return -10 - depth;
             }
 
             xSum = 0;
@@ -127,9 +127,9 @@ public class Minimax {
         }
 
         if (xSum == 3) {
-            return 1;
+            return 10 + depth;
         } else if (oSum == 3) {
-            return -2;
+            return -10 - depth;
         }
 
         xSum = 0;
@@ -147,68 +147,73 @@ public class Minimax {
         }
 
         if (xSum == 3) {
-            return 1;
+            return 10 + depth;
         } else if (oSum == 3) {
-            return -2;
+            return -10 - depth;
         }
 
         return 0;
 
     }
 
-    public static int minimax(char board[][], int depth, boolean isMax) {
+    public static int minimax(char board[][], int depth, boolean isMax, int min, int max) {
 
-        Move move = new Move();
-        int boardVal = evaluate(board);
+        int boardVal = evaluate(board, depth);
 
-        if (depth == 0 || !move.areMovesLeft(board)) {
+        if (Math.abs(boardVal) > 0 || depth == 0 || !Move.areMovesLeft(board)) {
             return boardVal;
         }
 
         if (isMax) {
 
-            int value = 0;
+            int valueH = Integer.MIN_VALUE;
 
             for (int row = 0; row < 3; row++) {
 
                 for (int col = 0; col < 3; col++) {
 
-                    if (move.isValidMove(row, col)) {
+                    if (Move.isValidMove(row, col)) {
 
-                        move.setMarkAt(row, col, 'x');
-                        value =+ minimax(board, depth - 1, false) * depth;
-                        move.setMarkAt(row, col, '_');
+                        Move.setMarkAt(row, col, 'x');
+                        valueH = Math.max(valueH, minimax(board, depth - 1, false, min, max));
+                        Move.setMarkAt(row, col, '_');
+                        min = Math.max(min, valueH);
+                        if (min >= max) {
+                            return valueH;
+                        }
 
                     }
                 }
             }
 
-            return value;
+            return valueH;
 
         } else {
 
-            int value = 0;
+            int valueL = Integer.MAX_VALUE;
 
             for (int row = 0; row < 3; row++) {
 
                 for (int col = 0; col < 3; col++) {
 
-                    if (move.isValidMove(row, col)) {
-                        move.setMarkAt(row, col, 'o');
-                        value =+ minimax(board, depth - 1, true) * depth;
-                        move.setMarkAt(row, col, '_');
+                    if (Move.isValidMove(row, col)) {
+                        Move.setMarkAt(row, col, 'o');
+                        valueL = Math.min(valueL, minimax(board, depth - 1, true, min, max));
+                        Move.setMarkAt(row, col, '_');
+                        max = Math.min(max, valueL);
+                        if (max <= min) {
+                            return valueL;
+                        }
                     }
                 }
             }
 
-            return value;
+            return valueL;
         }
 
     }
 
     public static int[] findBestMove(char board[][]) {
-
-        Move move = new Move();
 
         int[] bestMove = new int[]{-1, -1};
         int bestValue = Integer.MIN_VALUE;
@@ -219,9 +224,9 @@ public class Minimax {
 
                 if (board[row][col] == '_') {
 
-                    move.setMarkAt(row, col, 'x');
-                    int moveValue = minimax(board, 6,false);
-                    move.setMarkAt(row, col, '_');
+                    Move.setMarkAt(row, col, 'x');
+                    int moveValue = minimax(board, 12,false, Integer.MIN_VALUE, Integer.MAX_VALUE);
+                    Move.setMarkAt(row, col, '_');
 
                     if (moveValue > bestValue) {
 
